@@ -6,7 +6,7 @@
   <img src="https://img.shields.io/badge/platform-Tampermonkey-yellow.svg" alt="Platform">
 </p>
 
-「知乎收藏夹 Pro」是一款油猴脚本，调用DeepSeek API 为知乎收藏夹生成描述，批量分析收藏的回答/专栏文章，并自动移动到最合适的分类收藏夹中
+「知乎收藏夹 Pro」是一款油猴脚本功能是调用DeepSeek API为知乎收藏夹生成描述，批量分析收藏的回答/专栏文章，并自动移动到最合适的分类收藏夹中
 ---
 ## ✨ 功能特性
 
@@ -94,5 +94,4 @@
 欢迎提交 Pull Requests 或在 [Issues](https://github.com/ienone/ZhihuCollectionsPro/issues) 中提出问题和建议
 
 ## 📄 许可证
-
-本项目基于 [MIT](LICENSE) 许可证
+ [MIT](https://github.com/ienone/ZhihuCollectionsPro/blob/main/LICENSE) 
