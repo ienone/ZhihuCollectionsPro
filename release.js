@@ -1,7 +1,8 @@
 // ==UserScript==
 // @name         知乎收藏夹 Pro
+// @license      MIT
 // @namespace    http://tampermonkey.net/
-// @version      0.4.1
+// @version      0.4.3
 // @description  (1) 使用 AI 为知乎收藏夹一键生成描述。(2) 使用 AI 整理与重分类收藏夹。(3) [todo]替换知乎收藏按钮，直接用AI辅助分类
 // @author       https://github.com/ienone
 // @match        https://www.zhihu.com/collection/*
@@ -15,8 +16,10 @@
 // @grant        GM_getValue
 // @grant        GM_addStyle
 // @grant        GM_registerMenuCommand
-// @require      https://cdn.jsdelivr.net/npm/chart.js
+// @grant        GM_getResourceText
+// @resource     CHART_JS https://cdn.jsdelivr.net/npm/chart.js
 // ==/UserScript==
+
 
 
 /* jshint esversion: 11 */
@@ -28,8 +31,6 @@
     let moveHistory = []; // 用于存储所有成功的移动操作
     let progressDashboardState = {}; // 存储仪表盘的所有状态
     let chartInstances = {}; // 存储Chart.js实例
-
-
 
     /**
      * 生成一系列颜色用于图表
@@ -1651,7 +1652,31 @@ ${articleText}
         }
     });
 
-    // --- 启动脚本 ---
-    init();
+    // --- 启动脚本 (处理 Chart.js 的异步加载) ---
+
+    // 1. 读取 Chart.js 的代码
+    const chartJsCode = GM_getResourceText('CHART_JS');
+
+    if (chartJsCode) {
+        try {
+            // 2. 在脚本的沙箱环境中直接执行代码
+            eval(chartJsCode);
+
+            // 3. 验证一下
+            if (typeof Chart !== 'undefined') {
+                console.log('[知乎收藏夹 Pro] Chart.js 库加载并执行成功！');
+                // 4. 立即启动主逻辑
+                init();
+            } else {
+                throw new Error('Chart object not found after eval.');
+            }
+
+        } catch (e) {
+            console.error('[知乎收藏夹 Pro] 执行依赖库时出错:', e);
+            alert('知乎收藏夹 Pro：加载依赖库时发生错误，请查看控制台。');
+        }
+    } else {
+        alert('知乎收藏夹 Pro：无法获取依赖库 Chart.js 的内容，脚本无法运行。');
+    }
 
 })();
